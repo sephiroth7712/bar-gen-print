@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+<h1>Barcode Generation</h1>
+{{ svg|safe }}
+<form method="post" action="{{url_for('form')}}" enctype="multipart/form-data">
+    <p>top text:</p>
+    <input type="text" name="cx" value="{{ request.form['cx'] }}">
+    <p>value:</p>
+    <input type="text" name="r" value="{{ request.form['r'] }}">
+    <input type="submit">
+</form>
+{% endblock %}
