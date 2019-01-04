@@ -11,9 +11,9 @@ app = Flask(__name__)
 @app.route('/',methods=['GET','POST'])
 def form():
     if request.method == 'POST':
-        cx = request.form['cx']
-        r  = request.form['r']
-        return render_template( 'submit.html', svg=generate_barcode(cx,r))
+        text = request.form['cx']
+        value  = request.form['r']
+        return render_template( 'submit.html', svg=generate_barcode(text,value))
     elif request.method == 'GET':
         return render_template( 'submit.html' )
 
