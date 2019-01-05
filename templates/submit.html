@@ -5,6 +5,24 @@
 <form method="post" action="{{url_for('form')}}" enctype="multipart/form-data">
     <p>top text:</p>
     <input type="text" name="cx" value="{{ request.form['cx'] }}">
+    <p></p>
+						<label for="barcode_format">Barcode Format</label>
+						<select name="barcode_format" class="form-control" value="{{ request.form['format'] }}">
+							<option>code39</option>
+							<option>ean</option>
+							<option>ean13</option>
+							<option>ean8</option>
+							<option>gs1</option>
+							<option>gtin</option>
+							<option>isbn</option>
+							<option>isbn10</option>
+							<option>isbn13</option>
+							<option>issn</option>
+							<option>jan</option>
+							<option>pzn</option>
+							<option>upc</option>
+							<option>upca</option>
+						</select>
     <p>value:</p>
     <input type="text" name="r" value="{{ request.form['r'] }}">
     <input type="submit">

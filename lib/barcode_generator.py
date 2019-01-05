@@ -1,11 +1,11 @@
-from code128 import Code128
 import svgwrite
 import barcode
+import xml.etree.ElementTree as ET
 
-def barcode_svg(barcode_string):
+def barcode_svg(barcode_string,format):
     try:
         barcode_svg = barcode.get(
-                'code39',
+                format,
                 barcode_string).render(writer_options=None)
     except Exception as error:
         return {
@@ -15,28 +15,34 @@ def barcode_svg(barcode_string):
     # print barcode_svg
     return barcode_svg
 
-def generate_barcode(a,value):
-    # code = Code128()
-    # binary = code.makeCode(barcode)
-    # if binary:
+def mm2px(mm):
+    px=mm*3.7795275591
+    return  str(px)
+
+def generate_barcode(a,value,format):
     final=''
     svg_document = svgwrite.Drawing(filename = "test-svgwrite.svg", size = ("400px", "300px"))
     start_x = 50
     start_y = 50
-    bar_size = ("2px", "70px")
-    x = 0
-    print svg_document.rect(insert = (start_x + x, start_y), size = bar_size, fill = "rgb(0,0,0)")
-    svg_document.add(svg_document.text(a,insert=(start_x+50,start_y)))
-    final+=svg_document.tostring()
-    final=final[:-6]
-    print final
-    final+="""<g transform="translate(100,100)">"""
-    brc=barcode_svg(value)
-    final+=brc+"</g></svg>"
-    # for b in binary:
-    #     if b == '1':
-    #         svg_document.add(svg_document.rect(insert = (start_x + x, start_y), size = bar_size, fill = "rgb(0,0,0)"))
-    #     else:
-    #         svg_document.add(svg_document.rect(insert = (start_x + x, start_y), size = bar_size, fill = "rgb(255,255,255)"))
-    #     x += 2
-    return final
+    bar_size = ("1.2472440945px", "56.692913386px")
+    x = 0.0
+    brc=barcode_svg(value,format)
+    root = ET.fromstring(brc)
+    nsmap = {'n': 'http://www.w3.org/2000/svg'}
+    i=0
+    for item in root.findall('n:rect', namespaces=nsmap):
+        # if i==0:
+        #     i+=1
+        #     continue
+        height = item.attrib['height']
+        style=item.attrib['style']
+        width=item.attrib['width']
+        bar_size=(mm2px(float(width[:-2])*1.5),mm2px(float(height[:-2])*1.5))
+        if style[-6:-1]=='black':
+            svg_document.add(svg_document.rect(insert = (start_x + x, start_y), size = bar_size, fill = "rgb(0,0,0)"))
+        else:
+            svg_document.add(svg_document.rect(insert = (start_x + x, start_y), size = bar_size, fill = "rgb(255,255,255)"))
+        x+=float(mm2px(float(width[:-2])))*1.5
+    item=root.find('n:text',  namespaces=nsmap)
+    svg_document.add(svg_document.text(item.text, insert = (start_x + 125, start_y + float(mm2px(float(height[:-2])))*1.5+20)))
+    return svg_document.tostring()

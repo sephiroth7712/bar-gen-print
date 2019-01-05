@@ -13,10 +13,11 @@ def form():
     if request.method == 'POST':
         text = request.form['cx']
         value  = request.form['r']
-        return render_template( 'submit.html', svg=generate_barcode(text,value))
+        format=request.form['barcode_format']
+        return render_template( 'submit.html', svg=generate_barcode(text,value,format))
     elif request.method == 'GET':
         return render_template( 'submit.html' )
 
 if __name__=='__main__':
     app.debug = True
-    app.run( host='localhost', port=8080 )
+    app.run(host= '192.168.0.133')
