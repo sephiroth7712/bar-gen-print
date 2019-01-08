@@ -2,6 +2,7 @@ import svgwrite
 import barcode
 import xml.etree.ElementTree as ET
 
+#wrapper function to generate svg xml string using pyBarcode module
 def barcode_svg(barcode_string,format):
     try:
         barcode_svg = barcode.get(
@@ -15,10 +16,13 @@ def barcode_svg(barcode_string,format):
     # print barcode_svg
     return barcode_svg
 
+#function to convert millimetres to pixel
 def mm2px(mm):
     px=mm*3.7795275591
     return  str(px)
 
+#function to generate final barcode svg using given value,
+#TODO make function parameter a an array that acceps a list of strings that the user wishes to appear with the barcode
 def generate_barcode(a,value,format):
     final=''
     svg_document = svgwrite.Drawing(filename = "test-svgwrite.svg", size = ("400px", "300px"))
@@ -30,6 +34,7 @@ def generate_barcode(a,value,format):
     root = ET.fromstring(brc)
     nsmap = {'n': 'http://www.w3.org/2000/svg'}
     i=0
+    #using svg string output from barcode_svg to generate new svg that can include user input strings for future use
     for item in root.findall('n:rect', namespaces=nsmap):
         # if i==0:
         #     i+=1
