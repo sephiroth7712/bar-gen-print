@@ -21,7 +21,7 @@ Make sure you have [python-2.7.15](https://www.python.org/downloads/release/pyth
 
 3. Start the application
 ```
-	$ gunicorn app:app
+	$ python app.py
 ```
 
 Your app server should now be running locally.
@@ -39,9 +39,9 @@ Your app server should now be running locally.
 ### Generating a barcode
 1. Run the application to start the app server
 ```
-  $gunicorn app:app
+  $python app.py
 ```
-2. Go to link [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+2. Go to link [http://0.0.0.0:5000/](http://0.0.0.0:5000/)
 3. Choose the barcode format
 4. Enter value of the barcode and click on submit to view the generated barcode.
 
