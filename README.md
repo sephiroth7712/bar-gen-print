@@ -35,7 +35,7 @@ Your app server should now be running locally.
 
 
 
-## Getting Started with the Application<a name="gswta></a>
+## Getting Started with the Application<a name="gswta"></a>
 ### Generating a barcode
 1. Run the application to start the app server
 ```
